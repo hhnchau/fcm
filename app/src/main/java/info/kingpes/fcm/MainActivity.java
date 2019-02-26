@@ -17,6 +17,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/*Mail: chau7283@gmail.com
+* Add new project
+* Select Platform
+* get SHA-1: android/sign report
+* Copy json to: D:\Sample\FCM\app
+* */
+
 public class MainActivity extends AppCompatActivity {
 
     APIService apiService;

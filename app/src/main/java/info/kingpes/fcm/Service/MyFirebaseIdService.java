@@ -14,7 +14,6 @@ public class MyFirebaseIdService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         super.onTokenRefresh();
 
-        String refreshToken = FirebaseInstanceId.getInstance().getToken();
-        Common.currentToken = refreshToken;
+        Common.currentToken = FirebaseInstanceId.getInstance().getToken();
     }
 }
