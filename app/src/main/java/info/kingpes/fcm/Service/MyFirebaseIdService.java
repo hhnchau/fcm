@@ -1,5 +1,7 @@
 package info.kingpes.fcm.Service;
 
+import android.util.Log;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -15,5 +17,6 @@ public class MyFirebaseIdService extends FirebaseInstanceIdService {
         super.onTokenRefresh();
 
         Common.currentToken = FirebaseInstanceId.getInstance().getToken();
+
     }
 }

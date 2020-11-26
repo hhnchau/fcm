@@ -1,12 +1,17 @@
 package info.kingpes.fcm;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import info.kingpes.fcm.Remote.APIService;
@@ -33,9 +38,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                if (!TextUtils.isEmpty(token)) {
+                    Log.d("MyToken",token);
+                } else {
+                    Log.d("MyToken", "null");
+                }
+            }
+        });
 
-        //Common.currentToken = FirebaseInstanceId.getInstance().getToken();
-        //Log.d("MyToken", Common.currentToken);
 
         //For Multi
         FirebaseMessaging.getInstance().subscribeToTopic("Kingpes");
