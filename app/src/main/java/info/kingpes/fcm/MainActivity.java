@@ -1,12 +1,17 @@
 package info.kingpes.fcm;
 
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,6 +20,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import info.kingpes.fcm.Remote.APIService;
+import info.kingpes.fcm.Service.IncomingService;
 import info.kingpes.fcm.model.MyResponse;
 import info.kingpes.fcm.model.Notification;
 import info.kingpes.fcm.model.Sender;
@@ -33,10 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
     APIService apiService;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void askPermission() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent, 1000);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            askPermission();
+        } else {
+            startService(new Intent(this, IncomingService.class));
+        }
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
             @Override

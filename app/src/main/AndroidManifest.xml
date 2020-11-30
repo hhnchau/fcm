@@ -3,6 +3,14 @@
     package="info.kingpes.fcm">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Needed to get the current Do Not Disturb policy -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Needed for full screen intent in notifications -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- Needed for overlay widget and floating notifications -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +27,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NotifyActivity"/>
+        <activity android:name=".NotifyActivity"
+            android:launchMode="singleTop"
+            android:noHistory="true"
+            android:screenOrientation="fullSensor"
+            android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            />
 
         <service android:name=".Service.MyFirebaseIdService">
             <intent-filter>
@@ -27,12 +41,15 @@
             </intent-filter>
         </service>
 
-        <service android:name=".Service.MyFirebaseMessaging">
+        <service android:name=".Service.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
+        <service android:name=".Service.IncomingService"/>
 
     </application>
 
